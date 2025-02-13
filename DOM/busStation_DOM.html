@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BusStation Reservations</title>
+</head>
+<body>
+<h1>Автобусни резервации</h1>
+<button id="generateXML1">Генериране на XML 1 - busStationCentral.xml</button>
+<button id="generateXML2">Генериране на XML 2 - busStationEast.xml</button>
+<button id="generateXML3">Генериране на XML 3 - busStationSouth.xml</button>
+<button id="generateXML4">Генериране на XML 4 - busStationNorth.xml</button>
+<button id="generateXML5">Генериране на XML 5 - busStationWest.xml</button>
+<h2>Резултат:</h2>
+<pre id="xmlOutput" style="background: #f4f4f4; padding: 10px; border: 1px solid #ccc; overflow: auto;"></pre>
+
+<script>
+    document.getElementById("generateXML1").addEventListener("click", () => generateXML(1));
+    document.getElementById("generateXML2").addEventListener("click", () => generateXML(2));
+    document.getElementById("generateXML3").addEventListener("click", () => generateXML(3));
+    document.getElementById("generateXML4").addEventListener("click", () => generateXML(4));
+    document.getElementById("generateXML5").addEventListener("click", () => generateXML(5));
+
+    function generateXML(fileNumber) {
+        const doc = document.implementation.createDocument("", "", null);
+        const root = doc.createElement("busStationReservationSystem");
+
+        root.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+        root.setAttribute("xsi:noNamespaceSchemaLocation", "projectSchema.xsd");
+
+        if (fileNumber === 1) {
+            root.setAttribute("systemID", "67890");
+            createStationInfo(doc, root, "S002", "Южна Автогара", "София", "ул. Тодор Каблешков 50", "029876543");
+            createBus(doc, root, "B002", "true", "30", "CB2345KL", "D002", "Георги Георгиев", "BG54321", [
+                { seatNumber: 1, isAvailable: false },
+                { seatNumber: 2, isAvailable: true }
+            ], [{ startPoint: "София", endPoint: "Бургас", departureTime: "2024-12-02T09:00:00", arrivalTime: "2024-12-02T14:30:00" }]);
+            createReservation(doc, root, "R002", "Анна Димитрова", "0899988776", "anna.dimova@example.com", "B002", 1, "2024-11-30T11:00:00", "cancelled");
+        } else if (fileNumber === 2) {
+            root.setAttribute("systemID", "67891");
+            createStationInfo(doc, root, "S003", "Автогара Варна", "Варна", "бул. Владислав Варненчик 231", "052987654");
+            createBus(doc, root, "B003", "false", "45", "VA5678GH", "D003", "Мартин Стоянов", "BG67890", [
+                { seatNumber: 1, isAvailable: false },
+                { seatNumber: 2, isAvailable: true }
+            ], [{ startPoint: "Варна", endPoint: "Бургас", departureTime: "2024-12-03T12:00:00", arrivalTime: "2024-12-03T15:00:00" }]);
+            createReservation(doc, root, "R003", "Елена Иванова", "0888999999", "elena.ivanova@example.com", "B003", 1, "2024-12-02T10:00:00", "confirmed");
+        } else if (fileNumber === 3) {
+            root.setAttribute("systemID", "67893");
+            createStationInfo(doc, root, "S005", "Автогара Русе", "Русе", "бул. България 45", "082654321");
+            createBus(doc, root, "B005", "true", "60", "RS3456MN", "D005", "Николай Павлов", "BG34567", [
+                { seatNumber: 5, isAvailable: false },
+                { seatNumber: 6, isAvailable: true }
+            ], [{ startPoint: "Русе", endPoint: "Велико Търново", departureTime: "2024-12-05T08:30:00", arrivalTime: "2024-12-05T10:00:00" }]);
+            createReservation(doc, root, "R005", "Илияна Гешева", "0899887766", "ilyana.gesheva@example.com", "B005", 5, "2024-12-04T12:00:00", "pending");
+        } else if (fileNumber === 4) {
+            root.setAttribute("systemID", "67892");
+            createStationInfo(doc, root, "S004", "Автогара Родопи", "Пловдив", "ул. Христо Ботев 88", "032654321");
+            createBus(doc, root, "B004", "true", "50", "PD8901JK", "D004", "Стоян Костов", "BG89012", [
+                { seatNumber: 3, isAvailable: false },
+                { seatNumber: 4, isAvailable: true }
+            ], [{ startPoint: "Пловдив", endPoint: "Стара Загора", departureTime: "2024-12-04T14:00:00", arrivalTime: "2024-12-04T16:30:00" }]);
+            createReservation(doc, root, "R004", "Красимир Ангелов", "0877123456", "k.angelov@example.com", "B004", 3, "2024-12-03T15:00:00", "confirmed");
+        } else if (fileNumber === 5) {
+            root.setAttribute("systemID", "67894");
+            createStationInfo(doc, root, "S006", "Централна Автогара", "София", "бул. Княгиня Мария Луиза 102", "029654321");
+            createBus(doc, root, "B006", "true", "40", "SO4567PQ", "D006", "Веселин Димитров", "BG45678", [
+                { seatNumber: 7, isAvailable: false },
+                { seatNumber: 8, isAvailable: true }
+            ], [{ startPoint: "София", endPoint: "Видин", departureTime: "2024-12-06T17:00:00", arrivalTime: "2024-12-06T20:30:00" }]);
+            createReservation(doc, root, "R006", "Даниел Михайлов", "0888665544", "d.mihaylov@example.com", "B006", 7, "2024-12-05T14:30:00", "confirmed");
+        }
+
+        doc.appendChild(root);
+        const serializer = new XMLSerializer();
+        const xmlString = serializer.serializeToString(doc);
+        const formattedXML = formatXML(xmlString);
+        document.getElementById("xmlOutput").textContent = formattedXML;
+    }
+
+    function createStationInfo(doc, root, stationID, stationName, city, address, contactNumber) {
+        const stationInfo = doc.createElement("stationInfo");
+        stationInfo.setAttribute("stationID", stationID);
+
+        const name = doc.createElement("stationName");
+        name.textContent = stationName;
+        stationInfo.appendChild(name);
+
+        const location = doc.createElement("location");
+        const cityElement = doc.createElement("city");
+        cityElement.textContent = city;
+        location.appendChild(cityElement);
+
+        const addressElement = doc.createElement("address");
+        addressElement.textContent = address;
+        location.appendChild(addressElement);
+
+        stationInfo.appendChild(location);
+
+        const contact = doc.createElement("contactNumber");
+        contact.textContent = contactNumber;
+        stationInfo.appendChild(contact);
+
+        root.appendChild(stationInfo);
+    }
+
+    function createBus(doc, root, busID, available, capacity, busNumber, driverID, driverName, licenseNumber, seats, routes) {
+        const buses = doc.createElement("buses");
+        const bus = doc.createElement("bus");
+        bus.setAttribute("busID", busID);
+        bus.setAttribute("available", available);
+        bus.setAttribute("capacity", capacity);
+
+        const number = doc.createElement("busNumber");
+        number.textContent = busNumber;
+        bus.appendChild(number);
+        const driver = doc.createElement("driver");
+        driver.setAttribute("driverID", driverID);
+
+        const name = doc.createElement("name");
+        name.textContent = driverName;
+        driver.appendChild(name);
+
+        const license = doc.createElement("licenseNumber");
+        license.textContent = licenseNumber;
+        driver.appendChild(license);
+
+        bus.appendChild(driver);
+
+        const seatsElement = doc.createElement("seats");
+        seats.forEach(seat => {
+            const seatElement = doc.createElement("seat");
+            seatElement.setAttribute("seatNumber", seat.seatNumber);
+            seatElement.setAttribute("isAvailable", seat.isAvailable);
+            seatsElement.appendChild(seatElement);
+        });
+        bus.appendChild(seatsElement);
+
+        const routesElement = doc.createElement("routes");
+        routes.forEach(route => {
+            const routeElement = doc.createElement("route");
+
+            const startPoint = doc.createElement("startPoint");
+            startPoint.textContent = route.startPoint;
+            routeElement.appendChild(startPoint);
+
+            const endPoint = doc.createElement("endPoint");
+            endPoint.textContent = route.endPoint;
+            routeElement.appendChild(endPoint);
+
+            const departureTime = doc.createElement("departureTime");
+            departureTime.textContent = route.departureTime;
+            routeElement.appendChild(departureTime);
+
+            const arrivalTime = doc.createElement("arrivalTime");
+            arrivalTime.textContent = route.arrivalTime;
+            routeElement.appendChild(arrivalTime);
+
+            routesElement.appendChild(routeElement);
+        });
+        bus.appendChild(routesElement);
+
+        buses.appendChild(bus);
+        root.appendChild(buses);
+    }
+
+    function createReservation(doc, root, reservationID, passengerName, contactNumber, email, busID, seatNumber, dateTime, status) {
+        const reservations = doc.createElement("reservations");
+        const reservation = doc.createElement("reservation");
+        reservation.setAttribute("reservationID", reservationID);
+        reservation.setAttribute("status", status);
+
+        const passenger = doc.createElement("passenger");
+
+        const name = doc.createElement("name");
+        name.textContent = passengerName;
+        passenger.appendChild(name);
+
+        const contact = doc.createElement("contactNumber");
+        contact.textContent = contactNumber;
+        passenger.appendChild(contact);
+
+        const emailElement = doc.createElement("email");
+        emailElement.textContent = email;
+        passenger.appendChild(emailElement);
+
+        reservation.appendChild(passenger);
+
+        const busElement = doc.createElement("bus");
+        busElement.setAttribute("busID", busID);
+
+        const seatElement = doc.createElement("seatNumber");
+        seatElement.textContent = seatNumber;
+        busElement.appendChild(seatElement);
+
+        reservation.appendChild(busElement);
+
+        const dateTimeElement = doc.createElement("dateTime");
+        dateTimeElement.textContent = dateTime;
+        reservation.appendChild(dateTimeElement);
+
+        reservations.appendChild(reservation);
+        root.appendChild(reservations);
+    }
+
+    function formatXML(xmlString) {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlString, "application/xml");
+        const xsltProcessor = new XSLTProcessor();
+
+        const xslString = `
+                <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                    <xsl:output method="xml" indent="yes"/>
+                    <xsl:template match="@*|node()">
+                        <xsl:copy>
+                            <xsl:apply-templates select="@*|node()"/>
+                        </xsl:copy>
+                    </xsl:template>
+                </xsl:stylesheet>
+            `;
+
+        const xslDoc = parser.parseFromString(xslString, "application/xml");
+        xsltProcessor.importStylesheet(xslDoc);
+
+        const resultDoc = xsltProcessor.transformToDocument(xmlDoc);
+        const serializer = new XMLSerializer();
+        return serializer.serializeToString(resultDoc);
+    }
+</script>
+</body>
+</html>

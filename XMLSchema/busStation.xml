@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<busStationReservationSystem systemID="12345"
+                             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                             xsi:noNamespaceSchemaLocation="projectSchema.xsd">
+
+    <stationInfo stationID="S001">
+        <stationName>Централна Автогара</stationName>
+        <location>
+            <city>София</city>
+            <address>бул. Мария Луиза 100</address>
+        </location>
+        <contactNumber>029123456</contactNumber>
+    </stationInfo>
+
+    <buses>
+        <bus busID="B001" available="true" capacity="20">
+            <busNumber>CA1234BM</busNumber>
+            <driver driverID="D001">
+                <name>Иван Иванов</name>
+                <licenseNumber>BG12345</licenseNumber>
+            </driver>
+            <seats>
+                <seat>
+                    <seatNumber>1</seatNumber>
+                    <isAvailable>true</isAvailable>
+                </seat>
+                <seat>
+                    <seatNumber>2</seatNumber>
+                    <isAvailable>false</isAvailable>
+                </seat>
+            </seats>
+            <routes>
+                <route>
+                    <startPoint>София</startPoint>
+                    <endPoint>Пловдив</endPoint>
+                    <departureTime>2024-12-01T08:00:00</departureTime>
+                    <arrivalTime>2024-12-01T10:30:00</arrivalTime>
+                </route>
+            </routes>
+        </bus>
+    </buses>
+
+    <reservations>
+        <reservation status="confirmed">
+            <reservationID>R001</reservationID>
+            <customer>
+                <name>Петър Петров</name>
+                <contactNumber>0888123456</contactNumber>
+                <email>peter.petrov@example.com</email>
+            </customer>
+            <busID>B001</busID>
+            <seatNumber>2</seatNumber>
+            <reservationDate>2024-11-30T15:00:00</reservationDate>
+        </reservation>
+    </reservations>
+</busStationReservationSystem>

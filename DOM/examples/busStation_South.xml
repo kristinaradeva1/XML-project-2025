@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<busStationReservationSystem systemID="67892"
+                             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                             xsi:noNamespaceSchemaLocation="projectSchema.xsd">
+
+    <stationInfo stationID="S004">
+        <stationName>Автогара Родопи</stationName>
+        <location>
+            <city>Пловдив</city>
+            <address>ул. Христо Ботев 88</address>
+        </location>
+        <contactNumber>032654321</contactNumber>
+    </stationInfo>
+
+    <buses>
+        <bus busID="B004" available="true" capacity="50">
+            <busNumber>PD8901JK</busNumber>
+            <driver driverID="D004">
+                <name>Стоян Костов</name>
+                <licenseNumber>BG89012</licenseNumber>
+            </driver>
+            <seats>
+                <seat>
+                    <seatNumber>3</seatNumber>
+                    <isAvailable>false</isAvailable>
+                </seat>
+                <seat>
+                    <seatNumber>4</seatNumber>
+                    <isAvailable>true</isAvailable>
+                </seat>
+            </seats>
+            <routes>
+                <route>
+                    <startPoint>Пловдив</startPoint>
+                    <endPoint>Стара Загора</endPoint>
+                    <departureTime>2024-12-04T14:00:00</departureTime>
+                    <arrivalTime>2024-12-04T16:30:00</arrivalTime>
+                </route>
+            </routes>
+        </bus>
+    </buses>
+
+    <reservations>
+        <reservation status="confirmed">
+            <reservationID>R004</reservationID>
+            <customer>
+                <name>Красимир Ангелов</name>
+                <contactNumber>0877123456</contactNumber>
+                <email>k.angelov@example.com</email>
+            </customer>
+            <busID>B004</busID>
+            <seatNumber>3</seatNumber>
+            <reservationDate>2024-12-03T15:00:00</reservationDate>
+        </reservation>
+    </reservations>
+</busStationReservationSystem>

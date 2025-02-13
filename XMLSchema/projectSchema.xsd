@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Главен елемент за системата за резервации -->
+    <xsd:element name="busStationReservationSystem">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="stationInfo" type="StationInfoType"/>
+                <xsd:element name="buses" type="BusesType"/>
+                <xsd:element name="reservations" type="ReservationsType" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <xsd:attribute name="systemID" type="xsd:string" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <!-- Информация за автогарата -->
+    <xsd:complexType name="StationInfoType">
+        <xsd:sequence>
+            <xsd:element name="stationName" type="xsd:string"/>
+            <xsd:element name="location" type="LocationType"/>
+            <xsd:element name="contactNumber" type="xsd:string"/>
+        </xsd:sequence>
+        <xsd:attribute name="stationID" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+    <!-- Локация на автогарата -->
+    <xsd:complexType name="LocationType">
+        <xsd:sequence>
+            <xsd:element name="city" type="xsd:string"/>
+            <xsd:element name="address" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- Информация за автобусите -->
+    <xsd:complexType name="BusesType">
+        <xsd:sequence>
+            <xsd:element name="bus" type="BusType" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- Автобус -->
+    <xsd:complexType name="BusType">
+        <xsd:sequence>
+            <xsd:element name="busNumber" type="xsd:string"/>
+            <xsd:element name="driver" type="DriverType"/>
+            <xsd:element name="seats" type="SeatsType"/>
+            <xsd:element name="routes" type="RoutesType"/>
+        </xsd:sequence>
+        <xsd:attribute name="busID" type="xsd:string" use="required"/>
+        <xsd:attribute name="available" type="xsd:boolean" use="optional"/>
+        <xsd:attribute name="capacity" type="xsd:integer" use="required"/>
+    </xsd:complexType>
+
+    <!-- Информация за шофьора -->
+    <xsd:complexType name="DriverType">
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="licenseNumber" type="xsd:string"/>
+        </xsd:sequence>
+        <xsd:attribute name="driverID" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+    <!-- Места в автобуса -->
+    <xsd:complexType name="SeatsType">
+        <xsd:sequence>
+            <xsd:element name="seat" type="SeatType" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- Информация за място -->
+    <xsd:complexType name="SeatType">
+        <xsd:sequence>
+            <xsd:element name="seatNumber" type="xsd:string"/>
+            <xsd:element name="isAvailable" type="xsd:boolean"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- Информация за маршрути -->
+    <xsd:complexType name="RoutesType">
+        <xsd:sequence>
+            <xsd:element name="route" type="RouteType" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- Маршрут -->
+    <xsd:complexType name="RouteType">
+        <xsd:sequence>
+            <xsd:element name="startPoint" type="xsd:string"/>
+            <xsd:element name="endPoint" type="xsd:string"/>
+            <xsd:element name="departureTime" type="xsd:dateTime"/>
+            <xsd:element name="arrivalTime" type="xsd:dateTime"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- Информация за резервации -->
+    <xsd:complexType name="ReservationsType">
+        <xsd:sequence>
+            <xsd:element name="reservation" type="ReservationType" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- Резервация -->
+    <xsd:complexType name="ReservationType">
+        <xsd:sequence>
+            <xsd:element name="reservationID" type="xsd:string"/>
+            <xsd:element name="customer" type="CustomerType"/>
+            <xsd:element name="busID" type="xsd:string"/>
+            <xsd:element name="seatNumber" type="xsd:string"/>
+            <xsd:element name="reservationDate" type="xsd:dateTime"/>
+        </xsd:sequence>
+        <xsd:attribute name="status" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+    <!-- Информация за клиента -->
+    <xsd:complexType name="CustomerType">
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="contactNumber" type="xsd:string"/>
+            <xsd:element name="email" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>

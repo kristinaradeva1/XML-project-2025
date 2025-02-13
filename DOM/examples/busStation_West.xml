@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<busStationReservationSystem systemID="67894"
+                             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                             xsi:noNamespaceSchemaLocation="projectSchema.xsd">
+
+    <stationInfo stationID="S006">
+        <stationName>Централна Автогара</stationName>
+        <location>
+            <city>София</city>
+            <address>бул. Княгиня Мария Луиза 102</address>
+        </location>
+        <contactNumber>029654321</contactNumber>
+    </stationInfo>
+
+    <buses>
+        <bus busID="B006" available="true" capacity="40">
+            <busNumber>SO4567PQ</busNumber>
+            <driver driverID="D006">
+                <name>Веселин Димитров</name>
+                <licenseNumber>BG45678</licenseNumber>
+            </driver>
+            <seats>
+                <seat>
+                    <seatNumber>7</seatNumber>
+                    <isAvailable>false</isAvailable>
+                </seat>
+                <seat>
+                    <seatNumber>8</seatNumber>
+                    <isAvailable>true</isAvailable>
+                </seat>
+            </seats>
+            <routes>
+                <route>
+                    <startPoint>София</startPoint>
+                    <endPoint>Видин</endPoint>
+                    <departureTime>2024-12-06T17:00:00</departureTime>
+                    <arrivalTime>2024-12-06T20:30:00</arrivalTime>
+                </route>
+            </routes>
+        </bus>
+    </buses>
+
+    <reservations>
+        <reservation status="confirmed">
+            <reservationID>R006</reservationID>
+            <customer>
+                <name>Даниел Михайлов</name>
+                <contactNumber>0888665544</contactNumber>
+                <email>d.mihaylov@example.com</email>
+            </customer>
+            <busID>B006</busID>
+            <seatNumber>7</seatNumber>
+            <reservationDate>2024-12-05T14:30:00</reservationDate>
+        </reservation>
+    </reservations>
+</busStationReservationSystem>
